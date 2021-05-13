@@ -2,11 +2,12 @@ package cfg
 
 import "time"
 
-// CfgCBR - конфигурация интеграции с апи Центробанка
+//  Config - конфигурация из файла config.yaml
 type Config struct {
 	CBR CfgCBR `yaml:"cbr"`
 }
 
+// CfgCBR - конфигурация интеграции с апи Центробанка
 type CfgCBR struct {
 	Host    string        `yaml:"host"`
 	Method  string        `yaml:"method"`

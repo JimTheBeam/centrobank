@@ -18,33 +18,32 @@ import (
 // ParseAll - parse all XML
 func ParseAll(cfg *cfg.Config) (map[string][]Valute, error) {
 
-	result := make(map[string][]Valute)
+	result := make(map[string][]Valute, cfg.CBR.Days)
 	currency := &ValCurs{}
 
-	for n := 0; n <= cfg.CBR.Days; n++ {
-		curr, err := ParseOneXML(cfg, currency, n)
+	for i := 0; i <= cfg.CBR.Days; i++ {
+		curr, err := ParseOneXML(cfg, currency, i)
 		if err != nil {
 			log.Printf("Error Failed to parse XML %v", err)
 			return nil, err
 		}
 		result[curr.Date] = curr.Valute
 	}
-
+	fmt.Println("result:", len(result))
 	return result, nil
 }
 
 // ParseOneXML n - number of days before today
 func ParseOneXML(cfg *cfg.Config, currency *ValCurs, n int) (*ValCurs, error) {
 
-	date := getDate(n)
-
 	// get url from config
-	url := mergeUrl(cfg, date)
+	url := mergeUrl(cfg, getDate(n))
 
 	// get XMLbytes
-	xmlBytes, err := GetXML(url)
+	xmlBytes, err := GetXML(url, cfg)
 	if err != nil {
 		log.Printf("Failed to get XML: %v", err)
+		return nil, err
 	}
 
 	// decode XML from "windows-12510"
@@ -118,8 +117,11 @@ func UnmarshalXML(xmlBytes []byte, currency *ValCurs) error {
 	return nil
 }
 
-func GetXML(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+func GetXML(url string, cfg *cfg.Config) ([]byte, error) {
+
+	client := &http.Client{Timeout: cfg.CBR.Timeout * time.Second}
+
+	resp, err := client.Get(url)
 	if err != nil {
 		return []byte{}, fmt.Errorf("GET error: %v", err)
 	}
@@ -142,14 +144,16 @@ func GetXML(url string) ([]byte, error) {
 // mergeUrl merge host, method from config and date
 // date must be like <dd/mm/yyyy>
 func mergeUrl(cfg *cfg.Config, date string) string {
-	return fmt.Sprintf("%s/%s?date_req=%s",
+	return fmt.Sprintf(
+		"%s/%s?date_req=%s",
 		strings.TrimRight(strings.TrimLeft(cfg.CBR.Host, "/"), "/"),
 		strings.TrimRight(strings.TrimLeft(cfg.CBR.Method, "/"), "/"),
-		date)
+		date,
+	)
 }
 
 // getDate - gets date n days before now
 // return string <dd/mm/yyyy> format
 func getDate(n int) string {
-	return time.Now().UTC().AddDate(0, 0, -n).Format("02/01/2006")
+	return time.Now().UTC().AddDate(0, 0, -n).Format(dateFormat)
 }

@@ -2,6 +2,13 @@ package cbr
 
 import (
 	"encoding/xml"
+	"math"
+)
+
+const (
+	minConst   = float64(math.MaxFloat64)
+	maxConst   = 0.0
+	dateFormat = "02/01/2006"
 )
 
 type ValCurs struct {
@@ -27,4 +34,10 @@ type ValuteMinMax struct {
 	Name    string
 	Nominal int
 	Value   float64
+}
+
+type ValuteAverage struct {
+	Name    string
+	Values  []float64
+	Average float64
 }

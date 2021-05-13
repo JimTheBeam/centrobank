@@ -101,6 +101,7 @@ func main() {
 	)
 
 	//TODO: Посчитать  СРЕДНЕЕ
+	cbr.CalculateAverage(data)
 }
 
 // loadCfg - open config file and put config to cfg.Config struct
