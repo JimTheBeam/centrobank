@@ -3,5 +3,5 @@
 cbr:
     host: "http://www.cbr.ru"
     method: "scripts/XML_daily_eng.asp"
-    date: "24/03/2021"
-    timeout: 5
+    days: 90 # количество дней за которые необходимо получить данные
+    timeout: 5 # секунды

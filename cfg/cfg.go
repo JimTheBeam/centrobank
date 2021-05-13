@@ -10,6 +10,6 @@ type Config struct {
 type CfgCBR struct {
 	Host    string        `yaml:"host"`
 	Method  string        `yaml:"method"`
-	Date    string        `yaml:"date"`
+	Days    int           `yaml:"days"`
 	Timeout time.Duration `yaml:"timeout"`
 }

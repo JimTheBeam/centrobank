@@ -4,17 +4,12 @@ import (
 	"encoding/xml"
 )
 
-// TODO: probably delete
-type Currencies struct {
-	Date     string
-	DateData []ValCurs
-}
-
 type ValCurs struct {
 	XMLName xml.Name `xml:"ValCurs"`
 	Date    string   `xml:"Date,attr"`
 	Valute  []Valute `xml:"Valute"`
 }
+
 type Valute struct {
 	ID         string `xml:"ID,attr"`
 	NumCode    string `xml:"NumCode"`
@@ -23,4 +18,13 @@ type Valute struct {
 	Name       string `xml:"Name"`
 	Value      string `xml:"Value"`
 	ValueFloat float64
+	NominalInt int
+	Cost       float64
+}
+
+type ValuteMinMax struct {
+	Date    string
+	Name    string
+	Nominal int
+	Value   float64
 }
