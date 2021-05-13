@@ -1,0 +1,7 @@
+# yaml config
+
+cbr:
+    host: "http://www.cbr.ru"
+    method: "scripts/XML_daily_eng.asp"
+    date: "24/03/2021"
+    timeout: 5

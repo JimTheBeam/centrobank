@@ -1,6 +1,7 @@
 package main
 
 import (
+	"centrobank/app/cbr"
 	"centrobank/cfg"
 	"flag"
 	"io/ioutil"
@@ -50,17 +51,23 @@ func main() {
 
 	exitCode++
 
-	// exitCode = 3
+	//exitCode = 3
 	if err := loadCfg(cfgFile, &cfg); err != nil {
 		log.Printf("Config file unmarshal error: %s", err)
 		_, usage := flag.UnquoteUsage(flg.Lookup("c"))
 		log.Printf("Usage: %v", usage)
 		os.Exit(exitCode)
 	}
+	log.Println(cfg)
 
 	exitCode++
 
+	// TODO:  сделать что-то
 	//fmt.Println(cfg, exitCode)
+	err := cbr.ParseOneXML(&cfg)
+	if err != nil {
+		os.Exit(exitCode)
+	}
 }
 
 // loadCfg - open config file and put config to cfg.Config struct
