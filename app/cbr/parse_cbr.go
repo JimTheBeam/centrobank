@@ -25,7 +25,7 @@ func ParseAll(cfg *cfg.Config) (map[string][]Valute, error) {
 	log.Printf("Start <ParseAll>")
 	defer log.Printf("End <ParseAll>")
 
-	// map[date][]Valute
+	// data = map[date][]Valute
 	result := make(map[string][]Valute, cfg.CBR.Days)
 
 	mux := &sync.Mutex{}

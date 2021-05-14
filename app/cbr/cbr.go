@@ -4,6 +4,7 @@ import (
 	"centrobank/cfg"
 	"fmt"
 	"log"
+	"math"
 )
 
 func PrintResults(data map[string][]Valute, cfg *cfg.Config) {
@@ -92,7 +93,7 @@ func calculateAverage(data map[string][]Valute) []ValuteAverage {
 
 	for date := range data {
 		for _, valute := range data[date] {
-			res[valute.Name] = append(res[valute.Name], valute.ValueFloat)
+			res[valute.Name] = append(res[valute.Name], valute.Cost)
 		}
 	}
 
@@ -106,10 +107,12 @@ func calculateAverage(data map[string][]Valute) []ValuteAverage {
 
 		valAv := ValuteAverage{
 			Name:    name,
-			Average: sum / float64(len(values)),
+			Average: math.Round((sum/float64(len(values)))*10000) / 10000,
 		}
 
+		// fmt.Println("average", valAv)
 		averageValutes = append(averageValutes, valAv)
 	}
+
 	return averageValutes
 }

@@ -1,10 +1,4 @@
-1. Install gopkg.in/yaml.v2:
 
-go get gopkg.in/yaml.v2
-
-2. Install charset
-
-go get golang.org/x/net/html/charset
 
 
 ### To run the program you can use flags:
