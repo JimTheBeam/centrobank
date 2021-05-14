@@ -71,37 +71,8 @@ func main() {
 		os.Exit(exitCode)
 	}
 
-	// TODO: Delete this
-	// now := time.Now().UTC().Format("02.01.2006")
-	// valutesNow := data[now]
-	// for _, el := range valutesNow {
-	// 	fmt.Printf("%v: nominalInt: %v, ValueFloat: %v, Cost: %v\n",
-	// 		el.Name,
-	// 		el.NominalInt,
-	// 		el.ValueFloat,
-	// 		el.Cost)
-	// }
-
-	// Считаем минимальную валюту
-	min := cbr.CalculateMin(data)
-	fmt.Printf("Min value of all currencies  %s was %s. One %s costs %v rub.\n",
-		min.Name,
-		min.Date,
-		min.Name,
-		min.Value,
-	)
-
-	// Считаем максимальную валюту
-	max := cbr.CalculateMax(data)
-	fmt.Printf("Max value of %s was %s. One %s costs %v rub.\n",
-		max.Name,
-		max.Date,
-		max.Name,
-		max.Value,
-	)
-
-	//TODO: Посчитать  СРЕДНЕЕ
-	cbr.CalculateAverage(data)
+	// Print all results
+	cbr.PrintResults(data, &cfg)
 }
 
 // loadCfg - open config file and put config to cfg.Config struct

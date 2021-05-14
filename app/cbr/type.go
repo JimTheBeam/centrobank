@@ -38,6 +38,5 @@ type ValuteMinMax struct {
 
 type ValuteAverage struct {
 	Name    string
-	Values  []float64
 	Average float64
 }

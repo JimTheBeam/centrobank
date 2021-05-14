@@ -1,9 +1,47 @@
 package cbr
 
-import "fmt"
+import (
+	"centrobank/cfg"
+	"fmt"
+)
 
-// CalculateMin - find min cost value from all valutes
-func CalculateMin(data map[string][]Valute) ValuteMinMax {
+func PrintResults(data map[string][]Valute, cfg *cfg.Config) {
+	// calculate min value currency
+	min := calculateMin(data)
+	fmt.Printf(
+		"The currency with the MINIMUM value is %s\n",
+		min.Name,
+	)
+	fmt.Printf(
+		"The minimum value was reached on %s. One %s cost %.4f rubles.\n\n",
+		min.Date,
+		min.Name,
+		min.Value,
+	)
+
+	// calculate max value currency
+	max := calculateMax(data)
+	fmt.Printf(
+		"The currency with the MAXIMUM value is %s\n",
+		max.Name,
+	)
+	fmt.Printf(
+		"The maximum value was reached on %s. One %s cost %.4f rubles.\n\n",
+		max.Date,
+		max.Name,
+		max.Value,
+	)
+
+	// calculate average value of all currencies
+	res := calculateAverage(data)
+	fmt.Printf("Average currency values for the last %d days:\n", cfg.CBR.Days)
+	for _, valutes := range res {
+		fmt.Printf("%s:  %.4f rubles.\n", valutes.Name, valutes.Average)
+	}
+}
+
+// calculateMin - find min cost value from all valutes
+func calculateMin(data map[string][]Valute) ValuteMinMax {
 	minValute := ValuteMinMax{}
 	min := minConst
 
@@ -22,8 +60,8 @@ func CalculateMin(data map[string][]Valute) ValuteMinMax {
 	return minValute
 }
 
-// CalculateMax - find max cost value from all valutes
-func CalculateMax(data map[string][]Valute) ValuteMinMax {
+// calculateMax - find max cost value from all valutes
+func calculateMax(data map[string][]Valute) ValuteMinMax {
 	maxValute := ValuteMinMax{}
 	max := maxConst
 
@@ -43,21 +81,31 @@ func CalculateMax(data map[string][]Valute) ValuteMinMax {
 	return maxValute
 }
 
-// CalculateAverage - calculate average value for all valutes
-func CalculateAverage(data map[string][]Valute) {
-	// map[valuteName][]values
-	res := make(map[string][]float64)
-	fmt.Println(len(data))
-	for i := range data {
-		for _, valute := range data[i] {
+// calculateAverage - calculate average value for all valutes
+func calculateAverage(data map[string][]Valute) []ValuteAverage {
+	// map[valuteName][]currencyValues
+	res := make(map[string][]float64, len(data))
+
+	for date := range data {
+		for _, valute := range data[date] {
 			res[valute.Name] = append(res[valute.Name], valute.ValueFloat)
 		}
 	}
-	fmt.Println(len(res["SDR"]))
-}
 
-// type ValuteAverage struct {
-// 	Name    string
-// 	Values  []float64
-// 	Average float64
-// }
+	averageValutes := make([]ValuteAverage, 0, len(res))
+
+	for name, values := range res {
+		sum := 0.0
+		for i := range values {
+			sum += values[i]
+		}
+
+		valAv := ValuteAverage{
+			Name:    name,
+			Average: sum / float64(len(values)),
+		}
+
+		averageValutes = append(averageValutes, valAv)
+	}
+	return averageValutes
+}
