@@ -3,9 +3,13 @@ package cbr
 import (
 	"centrobank/cfg"
 	"fmt"
+	"log"
 )
 
 func PrintResults(data map[string][]Valute, cfg *cfg.Config) {
+	log.Printf("Start <PrintResults>")
+	defer log.Printf("End <PrintResults>")
+
 	// calculate min value currency
 	min := calculateMin(data)
 	fmt.Printf(
@@ -13,7 +17,7 @@ func PrintResults(data map[string][]Valute, cfg *cfg.Config) {
 		min.Name,
 	)
 	fmt.Printf(
-		"The minimum value was reached on %s. One %s cost %.4f rubles.\n\n",
+		"The minimum value was reached on %s. One %s cost %.6f rubles.\n\n",
 		min.Date,
 		min.Name,
 		min.Value,

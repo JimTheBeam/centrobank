@@ -11,6 +11,8 @@ import (
 
 // getXML - gets XML from cbr
 func getXML(url string, cfg *cfg.Config) ([]byte, error) {
+	log.Printf("Start <getXML>")
+	defer log.Printf("End <getXML>")
 
 	client := &http.Client{Timeout: cfg.CBR.Timeout * time.Second}
 

@@ -15,6 +15,9 @@ import (
 
 // parseValNomCost - add field valueFloat, Nominal and Cost to struct ValCurs
 func parseValNomCost(currency *ValCurs) error {
+	log.Printf("Start <parseValNomCost>")
+	defer log.Printf("End <parseValNomCost>")
+
 	for i := range currency.Valute {
 		// parse ValueFloat
 		valueFloat, err := strconv.ParseFloat(
@@ -43,6 +46,9 @@ func parseValNomCost(currency *ValCurs) error {
 
 // unmarshalXML - unmarshal xmlBytes to ValCurs struct
 func unmarshalXML(xmlBytes []byte, currency *ValCurs) error {
+	log.Printf("Start <unmarshalXML>")
+	defer log.Printf("End <unmarshalXML>")
+
 	reader := bytes.NewReader(xmlBytes)
 	decoder := xml.NewDecoder(reader)
 	decoder.CharsetReader = charset.NewReaderLabel
