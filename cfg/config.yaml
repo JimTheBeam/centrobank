@@ -1,0 +1,11 @@
+# yaml config
+# cbr - конфигурация для запросов в центробанк
+cbr:
+    #  host центробанка
+    host: "http://www.cbr.ru"
+    # http метод запроса
+    method: "scripts/XML_daily_eng.asp"
+    # количество дней за которые необходимо получить данные
+    days: 90 
+    # timeout в секундах
+    timeout: 5 
